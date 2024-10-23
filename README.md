@@ -1,5 +1,8 @@
 # GitHub Action: Run `docker build --check` with action-docker-build-check
 
+[![](https://img.shields.io/github/license/shmokmt/action-docker-build-check)](./LICENSE)
+[![Test](https://github.com/shmokmt/action-docker-build-check/actions/workflows/test.yml/badge.svg)](https://github.com/shmokmt/action-docker-build-check/actions/workflows/test.yml)
+
 This action runs `docker build --check` with reviewdog on pull requests to improve code review experience.
 
 ## Examples
@@ -10,7 +13,13 @@ This action runs `docker build --check` with reviewdog on pull requests to impro
 
 ```yaml
 name: reviewdog
+
 on: [pull_request]
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   docker-build-check:
     name: docker-build-check
