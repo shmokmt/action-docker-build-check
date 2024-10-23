@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: shmokmt/action-docker-build-check@master
+      - uses: shmokmt/action-docker-build-check@v1
         with:
           github_token: ${{ secrets.github_token }}
 ```
