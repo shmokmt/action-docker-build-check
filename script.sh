@@ -8,14 +8,6 @@ export REVIEWDOG_GITHUB_API_TOKEN="${INPUT_GITHUB_TOKEN}"
 TEMP_PATH="$(mktemp -d)"
 PATH="${TEMP_PATH}:$PATH"
 
-# echo "::group:: Installing Docker..."
-# # Re-install Docker Engine
-# for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
-# # Install from official script
-# curl -fsSL https://get.docker.com -o get-docker.sh
-# sudo sh get-docker.sh
-# echo "::endgroup"
-
 echo "::group:: docker version"
 docker version
 echo "::endgroups::"

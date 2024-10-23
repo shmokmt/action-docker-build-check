@@ -31,5 +31,9 @@ jobs:
           github_token: ${{ secrets.github_token }}
 ```
 
+>[!NOTE]
+> We recommend using Ubuntu, the GitHub self hosted runner. This action assumes that Docker and buildx are already installed on your system. If your runner does not have these pre-installed, please set them up yourself.
+
 ## See Also
 * https://docs.docker.com/reference/build-checks/
+* https://github.com/actions/runner-images/
