@@ -1,4 +1,4 @@
-# GitHub Action: Run `docker build --check` with action-docker-build-check
+# GitHub Action: Run `docker build --check` with reviewdog 🐶
 
 [![](https://img.shields.io/github/license/shmokmt/action-docker-build-check)](./LICENSE)
 [![Test](https://github.com/shmokmt/action-docker-build-check/actions/workflows/test.yml/badge.svg)](https://github.com/shmokmt/action-docker-build-check/actions/workflows/test.yml)
