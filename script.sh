@@ -30,12 +30,39 @@ echo '::endgroup::'
 
 export REVIEWDOG_GITHUB_API_TOKEN="${INPUT_GITHUB_TOKEN}"
 
+docker_build_jq='{
+ source: {
+  name: "docker-build-check",
+  url: "https://docs.docker.com/reference/build-checks/",
+},
+severity: "WARNING",
+diagnostics: .warnings | map({
+  message: .description,
+  location: {
+    "path": $ENV.DOCKER_FILE_PATH,
+    "range": {
+      "start": {
+        "line": .location.ranges[].start.line
+      },
+      "end": {
+        "line": .location.ranges[].end.line
+      },
+    },
+  },
+  severity: "WARNING",
+  code: {
+    "value": .ruleName,
+    "url": .url,
+  },
+})
+}'
+
 docker_files=$(git ls-files --exclude='*Dockerfile*' --ignored --cached)
 
 for docker_file in "${docker_files[@]}" ; do
     export DOCKER_FILE_PATH=${docker_file}
     check_result=$(docker build -f "${docker_file}" --call=check,format=json . || true)
-    echo "$check_result" | jq -f to-rdjson.jq \
+    echo "$check_result" | jq "$docker_build_jq" \
       | reviewdog -f=rdjson -name="docker-build-check" \
         -reporter="${INPUT_REPORTER}" \
         -filter-mode="${INPUT_FILTER_MODE}" \
