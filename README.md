@@ -10,7 +10,13 @@ This action runs `docker build --check` with reviewdog on pull requests to impro
 
 ```yaml
 name: reviewdog
+
 on: [pull_request]
+
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   docker-build-check:
     name: docker-build-check
