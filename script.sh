@@ -47,14 +47,25 @@ diagnostics: .warnings | map({
 })
 }'
 
-docker_files=$(git ls-files --exclude='*Dockerfile*' --ignored --cached)
+docker_files=($(git ls-files --exclude='*Dockerfile*' --ignored --cached))
 
 for docker_file in "${docker_files[@]}" ; do
-    export DOCKER_FILE_PATH=${docker_file}
+
+    echo "::group:: docker build -f ${docker_file} --call=check,format=json"
     check_result=$(docker build -f "${docker_file}" --call=check,format=json . || true)
-    echo "::group:: result of build --check"
+    echo "::endgroup::"
+
+    echo "::group:: result of ${docker_file}"
     echo "$check_result"
     echo "::endgroups::"
+
+    warnings=$(echo "$check_result" | jq '.warnings')
+    if [[ "$warnings" == "null" ]]; then
+        echo "No warnings found in ${docker_file}"
+        continue
+    fi
+
+    export DOCKER_FILE_PATH=${docker_file}
     echo "$check_result" | jq "$docker_build_jq" \
       | reviewdog -f=rdjson -name="docker-build-check" \
         -reporter="${INPUT_REPORTER}" \
