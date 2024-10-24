@@ -52,6 +52,9 @@ docker_files=$(git ls-files --exclude='*Dockerfile*' --ignored --cached)
 for docker_file in "${docker_files[@]}" ; do
     export DOCKER_FILE_PATH=${docker_file}
     check_result=$(docker build -f "${docker_file}" --call=check,format=json . || true)
+    echo "::group:: result of build --check"
+    echo "$check_result"
+    echo "::endgroups::"
     echo "$check_result" | jq "$docker_build_jq" \
       | reviewdog -f=rdjson -name="docker-build-check" \
         -reporter="${INPUT_REPORTER}" \
