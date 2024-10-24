@@ -7,7 +7,7 @@ permissions:
   contents: read
 
 jobs:
-  test-docker-build-check:
+  test-root-dir:
     name: test-docker-build-check
     runs-on: ubuntu-latest
     steps:
@@ -15,3 +15,14 @@ jobs:
       - uses: ./
         with:
           github_token: ${{ secrets.github_token }}
+
+  test-specific-workdir:
+    name: test-docker-build-check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          github_token: ${{ secrets.github_token }}
+          workdir: testdata
+          filter_mode: nofilter
