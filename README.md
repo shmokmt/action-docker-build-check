@@ -14,7 +14,11 @@ This action runs `docker build --check` with reviewdog on pull requests to impro
 ```yaml
 name: reviewdog
 
-on: [pull_request]
+on: 
+  pull_request:
+    paths:
+      - '**/Dockerfile'
+
 
 permissions:
   contents: read
